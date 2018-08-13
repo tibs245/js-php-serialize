@@ -1,8 +1,8 @@
 
-var serialize = (v, options) => {
+function serialize (v, options) {
     if (!options) {
         options = {
-            metakey: '__phpSerializedObject__',
+            metakey: '__phpSerializedObject__'
         };
     }
     var ret = '';
@@ -13,8 +13,6 @@ var serialize = (v, options) => {
     } else if (typeof v === 'number' || (typeof v === 'string' && "" + (+v) === v)) {
         if (v % 1 === 0) {
             ret = 'i:' + v + ';';
-        } else if (isNaN(v)) {
-            ret = 'd:NAN;';
         } else {
             ret = 'd:' + v.toFixed(16) + ';';
         }
@@ -22,7 +20,7 @@ var serialize = (v, options) => {
         ret = "s:" + Buffer.byteLength(v, 'utf8') + ':"' + v + '";';
     } else if (v[options.metakey]) {
         var meta = v[options.metakey];
-        var properties = Object.keys(v).filter(k => { return k !== options.metakey; }).map(k => {
+        var properties = Object.keys(v).filter(function (k) { return k !== options.metakey; }).map(function (k) {
             var key = k;
             if (meta.access && meta.access[k] && meta.access[k] === "protected") {
                 key = "\0*\0" + k;
@@ -34,7 +32,7 @@ var serialize = (v, options) => {
         });
         ret = 'O:' + meta.name.length + ':"' + meta.name + '":' + properties.length + ':{' + properties.join('') + '}';
     } else if (typeof v === 'object') {
-        var properties = Object.keys(v).map(k => {
+        var properties = Object.keys(v).map(function (k) {
             return serialize(k, options) + serialize(v[k], options);
         });
         ret = 'a:' + properties.length + ':{' + properties.join('') + '}';
