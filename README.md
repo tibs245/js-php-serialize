@@ -1,6 +1,10 @@
 # js-php-serialize
 NodeJS Module for working with PHP serialized data
 
+Forked to : https://github.com/mattsoftware/js-php-serialize
+
+Change function syntax for IE compatibility
+
 ## Usage
 
 In the most basic form, simply pass primitives, objects or arrays into the serialize method.
